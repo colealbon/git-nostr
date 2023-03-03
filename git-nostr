@@ -6,7 +6,7 @@ echo "
 Usage: git nostr [command] [--help]
 
 Commands:
-  publish       (not implemented) upload commits to nostr as patches
+  publish       upload commits to nostr as patches
   deleteall     (not implemented) send delete request for all messages for key pair
   list          (not implemented) list git repo manifest ids
   clone         (not implemented) git init, set nostr config, fetch patches for author and apply to local repo
@@ -37,6 +37,11 @@ then
 fi
 
 case $1 in
+  publish) # display Help
+    shift
+    # echo `publish.sh "$@" |tee >(head -n1) >(wc -l) >/dev/null`" nostr events created"
+    publish.sh "$@"
+    exit;;
   -h)
     usage
     exit;;
