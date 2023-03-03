@@ -8,7 +8,7 @@ Usage: git nostr [command] [--help]
 Commands:
   publish       upload commits to nostr as patches
   deleteall     send delete request for all messages for key pair
-  list          (not implemented) list git repo manifest ids
+  list          list git repo manifest ids
   clone         (not implemented) git init, set nostr config, fetch patches for author and apply to local repo
   create        (not implemented) set git config.publickey to public key and upload all config patches to nostr
   pull          (not implemented) fetch patches for an author or manifestid and apply
@@ -45,6 +45,10 @@ case $1 in
   deleteall)
     shift
     deleteall.sh "$@"
+    exit;;
+  list)
+    shift
+    list.sh "$@"
     exit;;
   -h)
     usage
