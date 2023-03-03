@@ -23,7 +23,7 @@ noscl keygen
 * [x] deleteall     send delete request for every message for a given publickey
 * [x] list          list manifest ids for git-nostr repos
 * [x] clone         clone a git repo from "git nostr publish manifestid
-* [ ] create        set git nostr.publickey to public key and upload all commits to nostr
+* [x] create        set git nostr.publickey to public key and upload all commits to nostr
 * [ ] pull  create patch, send to repo public key
 
 * [ ] create-id     Create a git repo on nostr
