@@ -10,7 +10,7 @@ Commands:
   deleteall     send delete request for all messages for key pair
   list          list git repo manifest ids
   clone         git init, set nostr config, fetch patches for author and apply to local repo
-  create        (not implemented) set git config.publickey to public key and upload all config patches to nostr
+  create        set git config.publickey to public key and upload all config patches to nostr
   pull          (not implemented) fetch patches for an author or manifestid and apply
 
   create-id     (not implemented) Create a git repo on nostr
@@ -53,6 +53,10 @@ case $1 in
   clone)
     shift
     clone.sh "$@"
+    exit;;
+  create) # run git init, set nostr.privatekey, set nostr.relay
+    shift
+    create.sh "$@"
     exit;;
   -h)
     usage
