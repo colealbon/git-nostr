@@ -20,7 +20,7 @@ noscl keygen
 
 # todo
 * [x] publish       publish commit to nostr as base64 encoded patch
-* [ ] deleteall     send delete request for every message for a given publickey
+* [x] deleteall     send delete request for every message for a given publickey
 * [ ] list          list manifest ids for git-nostr repos
 * [ ] clone         clone a git repo from "git nostr publish manifestid
 * [ ] create        set git nostr.publickey to public key and upload all commits to nostr
