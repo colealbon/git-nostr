@@ -7,7 +7,7 @@ Usage: git nostr [command] [--help]
 
 Commands:
   publish       upload commits to nostr as patches
-  deleteall     (not implemented) send delete request for all messages for key pair
+  deleteall     send delete request for all messages for key pair
   list          (not implemented) list git repo manifest ids
   clone         (not implemented) git init, set nostr config, fetch patches for author and apply to local repo
   create        (not implemented) set git config.publickey to public key and upload all config patches to nostr
@@ -41,6 +41,10 @@ case $1 in
     shift
     # echo `publish.sh "$@" |tee >(head -n1) >(wc -l) >/dev/null`" nostr events created"
     publish.sh "$@"
+    exit;;
+  deleteall)
+    shift
+    deleteall.sh "$@"
     exit;;
   -h)
     usage
