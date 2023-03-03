@@ -22,7 +22,7 @@ noscl keygen
 * [x] publish       publish commit to nostr as base64 encoded patch
 * [x] deleteall     send delete request for every message for a given publickey
 * [x] list          list manifest ids for git-nostr repos
-* [ ] clone         clone a git repo from "git nostr publish manifestid
+* [x] clone         clone a git repo from "git nostr publish manifestid
 * [ ] create        set git nostr.publickey to public key and upload all commits to nostr
 * [ ] pull  create patch, send to repo public key
 

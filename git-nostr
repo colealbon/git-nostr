@@ -9,7 +9,7 @@ Commands:
   publish       upload commits to nostr as patches
   deleteall     send delete request for all messages for key pair
   list          list git repo manifest ids
-  clone         (not implemented) git init, set nostr config, fetch patches for author and apply to local repo
+  clone         git init, set nostr config, fetch patches for author and apply to local repo
   create        (not implemented) set git config.publickey to public key and upload all config patches to nostr
   pull          (not implemented) fetch patches for an author or manifestid and apply
 
@@ -49,6 +49,10 @@ case $1 in
   list)
     shift
     list.sh "$@"
+    exit;;
+  clone)
+    shift
+    clone.sh "$@"
     exit;;
   -h)
     usage
