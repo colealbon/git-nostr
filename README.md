@@ -24,7 +24,7 @@ noscl keygen
 * [x] list          list manifest ids for git-nostr repos
 * [x] clone         clone a git repo from "git nostr publish manifestid
 * [x] create        set git nostr.publickey to public key and upload all commits to nostr
-* [ ] pull  create patch, send to repo public key
+* [x] pull  create patch, send to repo public key
 
 * [ ] create-id     Create a git repo on nostr
 * [ ] fork          Fork a git repo on nostr
