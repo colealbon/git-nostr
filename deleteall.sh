@@ -54,7 +54,7 @@ fi
 PUBLICKEY=`nostril --sec $SECRETKEY | jq --raw-output .pubkey`
 
 queryMessageIDsForDelete () {
-  nostril query --kinds 7777 |
+  nostril query |
   websocat $RELAY |
   jq --raw-output '.[] ' |
   grep \"id\": |
