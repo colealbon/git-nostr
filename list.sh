@@ -57,6 +57,8 @@ queryManifestMessageIDs () {
   jq -c --raw-output '.[] '|
   grep "git-nostr-manifest"|
   tee  >(jq --raw-output .id) > /dev/null
+  awk -v relay=ws://nostr.nostrin.gs '{system("nostril query -i "$1"| websocat "relay )}'|  jq '.[]'|jq -c|grep content| jq --raw-output .content|
+  awk '{system("echo \""$1"\" | base64 -D")}'
 }
 
 queryManifestForAuthor () {
@@ -64,7 +66,9 @@ queryManifestForAuthor () {
   websocat $RELAY|
   jq -c --raw-output '.[] '|
   grep "git-nostr-manifest"|
-  tee  >(jq --raw-output .id) > /dev/null
+  tee  >(jq --raw-output .id) > /dev/null|
+  awk -v relay=ws://nostr.nostrin.gs '{system("nostril query -i "$1"| websocat "relay )}'|  jq '.[]'|jq -c|grep content| jq --raw-output .content|
+  awk '{system("echo \""$1"\" | base64 -D")}'
 }
 
 if [ "$PUBLICKEY" = "" ]; then
