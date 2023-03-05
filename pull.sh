@@ -12,6 +12,7 @@ Usage: git nostr pull [options]
    "
 exit 2
 }
+COMMITID=""
 RELAY=""
 PUBLICKEY=""
 while [[ $# -gt 0 ]]
@@ -26,6 +27,11 @@ do
         shift
         shift
         ;;
+      --commitid)
+        COMMITID=$2
+        shift
+        shift
+        ;;
       --publickey)
         PUBLICKEY=$2
         shift
@@ -37,7 +43,7 @@ do
         shift
         ;;
       *)
-        MANIFESTID="$1"
+        COMMITID="$1"
         shift
         ;;
     esac
@@ -61,37 +67,38 @@ if [ "$PUBLICKEY" = "" ]; then
   exit 0
 fi
 
-queryManifestForAuthor() {
+queryManifestForAuthor () {
   nostril query --kinds 7777 --authors $PUBLICKEY|
   websocat $RELAY|
   jq -c --raw-output '.[] '|
   grep "git-nostr-manifest"|
-  tee  >(jq --raw-output .id) > /dev/null
-}
-
-fetchPatchesForManifestId() {
+  tee  >(jq --raw-output .id) > /dev/null |
   awk -v relay="$RELAY" '{system("nostril query -i "$1"| websocat "relay )}'|
   jq '.[]'|jq -c|grep content| jq --raw-output .content|
   awk '{system("echo \""$1"\" | base64 -D")}'|
-  jq --raw-output '.id'|
-  grep --line-buffered .|
-  awk -v relay="$RELAY" '{system("nostril query -i "$1"| websocat "relay )}'|
-  jq '.[]'|jq -c|grep content| jq --raw-output .content|
-  awk '{system("echo \""$1"\" | base64 -D")}'
+  jq -s 'sort_by(.sort)'
 }
 
-if [ "$MANIFESTID" != "" ]; then
-  queryManifestForAuthor|
-  grep --line-buffered $MANIFESTID|
-  fetchPatchesForManifestId|
-  git am --whitespace="nowarn"
+if [ "$COMMITID" != "" ]; then
+  queryManifestForAuthor |
+  jq -r --arg commitid "$COMMITID" '.[] | select(.commitid == $commitid) | .id' |
+  awk -v relay="$RELAY" '{system("nostril query -i "$1"| websocat "relay )}' |
+  jq '.[]'|jq -c|grep content| jq -r .content|
+  awk '{system("echo \""$1"\" | base64 -D")}'|
+  git am --reject
 fi
 
-if [ "$MANIFESTID" = "" ]; then
-  queryManifestForAuthor|
-  fetchPatchesForManifestId|
-  git am --whitespace="nowarn"
+if [ "$COMMITID$MANIFESTID" = "" ]; then
+  queryManifestForAuthor |
+  jq -r '.[] | .id' |
+  awk -v relay="$RELAY" '{system("nostril query -i "$1"| websocat "relay )}' |
+  jq '.[]'|jq -c|grep content| jq -r .content|
+  awk '{system("echo \""$1"\" | base64 -D")}'|
+  git am
 fi
+
+# TODO: publish a nostr message when commitid is applied
+
 
 # scratch code is research to not fetch already applied patches
 # REMOTECOMMITIDS=`
