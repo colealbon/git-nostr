@@ -79,14 +79,21 @@ patchesToBase64WithSortHints() {
   git log --reverse |
   grep --line-buffered "^commit " |
   sed 's/.* //g' |
-  awk '{system("echo "$1" `git format-patch --root --stdout --no-stat --minimal --full-index --break-rewrites -1 "$1"|base64`")}' |
-  nl -nrz |
-  awk -v chunksize="$CHUNKSIZE" '{system("echo "$3"|base64 -d|base64 -b "chunksize"|grep .| nl -nrz|sed \"s\/^\/"$1" "$2" \/g\"")}'
-  # $1 commitsort
+  awk '{system("echo \
+    `git show "$1" --no-patch --oneline --no-abbrev-commit|cat|sed \"s/ .*$//g\"`\
+    `git format-patch --root --stdout --no-stat --minimal --full-index --break-rewrites -1 "$1"|base64`\
+    `git show "$1" --no-patch --oneline --no-abbrev-commit|cat|sed \"s/^[^ ]* //\"|base64`\
+    ")}'|
+  nl -nrz|
+  awk -v chunksize="$CHUNKSIZE" '{system("echo "$3"|base64 -d|base64 -b "chunksize"|grep .| nl -nrz | sed \"s/^/"$1" "$2" "$4" /g\"")}'
+  # $1 commitchunksort
   # $2 commitid
-  # $3 chunksort
-  # $4 content
+  # $3 description base64
+  # $4 commitsort
+  # $5 content base64
 }
+
+
 
 base64WithSortHintsToNostrMessages() {
   awk \
@@ -97,10 +104,10 @@ base64WithSortHintsToNostrMessages() {
       --sec "secretkey" \
       --kind 7777 \
       --tag e "git-nostr-chunk" \
-      --tag commitsort "$1" \
+      --tag sort "$1$4" \
       --tag commitid "$2" \
-      --tag commitchunksort "$3" \
-      --content "$4 \
+      --tag description \"`echo "$3"|base64 -D`\" \
+      --content "$5 \
     )}'
 }
 
@@ -138,10 +145,9 @@ jq -c .|grep EVENT |jq -c .[]|grep "$1)}'|
 jq --raw-output '{
   id: .id,
   commitid: .tags[] | select(.[0] == "commitid") | .[1],
-  commitsort: .tags[] | select(.[0] == "commitsort") | .[1],
-  commitchunksort: .tags[] | select(.[0] == "commitchunksort") | .[1]
-  }'|
-base64
+  sort: .tags[] | select(.[0] == "sort") | .[1],
+  description: .tags[] | select(.[0] == "description") | .[1],
+  }'| base64
 `
 
 MANIFESTID=`nostril --envelope --sec "$SECRETKEY" --kind 7777 --tag e "git-nostr-manifest" --content "$MANIFEST"|\
