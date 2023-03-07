@@ -12,8 +12,10 @@ nostril query \
 # team
 - Cole Albon: npub1c0le4pgu49j76fnt54xfyclkszlfrcjx2c5vvjatdfvey5sat3ws76lcvg
 
-# install
+# install (manual)
+- add git-nostr directory to path
 - create a keypair for each repo with [noscl]
+- run git nostr (without arguments) for help
 ```
 noscl keygen
 ```
