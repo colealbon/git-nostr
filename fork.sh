@@ -38,25 +38,29 @@ do
         shift
         shift
         ;;
-      *)
-        if [ -z "$SOURCEPUBLICKEY" ]; then
-          SOURCEPUBLICKEY="$1"
-        fi
-        shift
-        ;;
     esac
 done
 
+if [ "$SECRETKEY" = "" ]; then
+  SECRETKEY=`git config nostr.secretkey`
+fi
+
 if [ "$RELAY" = "" ]; then
+  RELAY=`git config nostr.relay`
+fi
+
+if [ "$RELAY" = "" ]; then
+  echo 'missing relay'
   usage
-  exit 1
 fi
 
 if [ "$SOURCEPUBLICKEY" = "" ]; then
+  echo 'missing public key'
   usage
 fi
 
 if [ "$SECRETKEY" = "" ]; then
+  echo 'missing secret key'
   usage
 fi
 
