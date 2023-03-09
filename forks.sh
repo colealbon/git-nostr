@@ -53,4 +53,5 @@ if [ "$PUBLICKEY" = "" ]; then
   usage
 fi
 
-nostril query --kinds 7777 -g "p" "$PUBLICKEY"| websocat wss://nostr.nostrin.gs
+nostril query --kinds 7777 -g "p" "$PUBLICKEY"|
+websocat $RELAY| jq -r '.[2].pubkey'|sort -u|grep -v null
