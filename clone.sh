@@ -46,7 +46,7 @@ queryManifestForAuthor () {
   nostril query --kinds 7777 --authors $PUBLICKEY|
   websocat $RELAY|
   jq -c --raw-output '.[]'|
-  grep "git-nostr-manifest"|
+  grep "git-nostr-publish"|
   tee  >(jq --raw-output .id) > /dev/null
 }
 
