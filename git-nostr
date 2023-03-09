@@ -13,10 +13,10 @@ Commands:
   create        set git config.publickey to public key and upload all config patches to nostr
   pull          fetch patches for an author or manifestid and apply
   fork          clone a repo, then create
+  forks         list forks of a repo
 
   create-id     (not implemented) Create a git repo on nostr
   log           (not implemented) List history of updates to a repo
-  forks         (not implemented) List forks of a repo
   issues        (not implemented) List issues for a repo
   prs           (not implemented) List pull requests for a repo
   authors       (not implemented) List contributors to a repo
@@ -65,6 +65,10 @@ case $1 in
   fork)
     shift
     fork.sh "$@"
+    exit;;
+  forks)
+    shift
+    forks.sh "$@"
     exit;;
   -h)
     usage

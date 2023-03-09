@@ -12,11 +12,12 @@ cd ~/target/.git;
 rm -r -f rebase-apply FETCH_HEAD ORIG_HEAD description index logs packed-refs HEAD hooks info objects refs;
 cd ~/target
 git init
-git nostr deleteall --secretkey 84ad36bd1dd55ecdc0533be3a4c9b4d827a863ab5989d564a8c81b815a8a791d --relay wss://nostr.nostrin.gs
-git nostr fork --secretkey 84ad36bd1dd55ecdc0533be3a4c9b4d827a863ab5989d564a8c81b815a8a791d --relay wss://nostr.nostrin.gs 0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631
+git am --abort
+git nostr deleteall --secretkey "84ad36bd1dd55ecdc0533be3a4c9b4d827a863ab5989d564a8c81b815a8a791d" --relay "wss://nostr.nostrin.gs"
+git nostr fork --secretkey 84ad36bd1dd55ecdc0533be3a4c9b4d827a863ab5989d564a8c81b815a8a791d --relay wss://nostr.nostrin.gs --publickey 0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631
 
 cd ~/git-nostr
-nostril query --kinds 7777 -g "p" "0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631"| websocat wss://nostr.nostrin.gs
+git nostr forks --publickey "0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631" --relay "wss://nostr.nostrin.gs"
 
 # Vanity npub found:         patch target
 # Found matching public key: 0f578bd5889ed2ad606ef9b866d531d58e1e50ffcf20e5e34d958220f0430884
