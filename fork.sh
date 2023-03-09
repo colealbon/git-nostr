@@ -38,6 +38,12 @@ do
         shift
         shift
         ;;
+      *)
+        if [ -z "$SOURCEPUBLICKEY" ]; then
+          SOURCEPUBLICKEY="$1"
+        fi
+        shift
+        ;;
     esac
 done
 
@@ -58,11 +64,11 @@ PUBLICKEY=`nostril --sec $SECRETKEY | jq --raw-output .pubkey`
 echo "cloning "$SOURCEPUBLICKEY" to "$PUBLICKEY
 
 git nostr clone --publickey $SOURCEPUBLICKEY --relay $RELAY
-git nostr create --secretkey $SECRETKEY --relay $RELAY --publickey $PUBLICKEY
+git nostr create --secretkey $SECRETKEY --relay $RELAY
 
-ANNOUNCEMENTID=`nostril --envelope --sec $SECRETKEY --content "$SOURCEPUBLICKEY --> " --tag e "git-nostr-fork"|\
+ANNOUNCEMENTID=`nostril --envelope --sec $SECRETKEY --kind 7777 --content "$SOURCEPUBLICKEY --> $PUBLICKEY"  -p "$SOURCEPUBLICKEY" --tag purpose "git-nostr-fork"|\
 tee \
-  >(websocat "$RELAY" | jq -c .|grep OK | jq --raw-output .[1]) \
+  >(websocat $RELAY | jq -c .|grep OK | jq --raw-output .[1]) \
   >/dev/null`
 
 git config nostr.forksource $SOURCEPUBLICKEY

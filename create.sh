@@ -4,7 +4,7 @@ usage()
 {
 echo "
 Usage: git nostr create [options]
-   ex: git nostr create --privatekey c76bnwp...9mhscg --publickey 0as8f..xj05af --relay ws://nostr.nostrin.gs
+   ex: git nostr create --secretkey c76bnwp...9mhscg --publickey 0as8f..xj05af --relay ws://nostr.nostrin.gs
    # PUBLICKEY=`nostril --sec $SECRETKEY | jq --raw-output .pubkey`
  Options:
    --secretkey         nostr secret key
