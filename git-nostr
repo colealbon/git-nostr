@@ -70,6 +70,10 @@ case $1 in
     shift
     forks.sh "$@"
     exit;;
+  issue)
+    shift
+    issue.sh "$@"
+    exit;;
   -h)
     usage
     exit;;

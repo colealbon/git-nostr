@@ -26,12 +26,11 @@ noscl keygen
 * [x] list          list manifest ids for git-nostr repos
 * [x] clone         clone a git repo from "git nostr publish manifestid
 * [x] create        set git nostr.publickey to public key and upload all commits to nostr
-* [x] pull  create patch, send to repo public key
+* [x] pull          create patch, send to repo public key
 * [x] fork          Fork a git repo on nostr
 * [x] forks         List forks of a repo
-
+* [x] issues        List issues for a repo
 * [ ] create-id     Create a git repo on nostr
-* [ ] issues        List issues for a repo
 * [ ] prs           List pull requests for a repo
 * [ ] authors       List contributors to a repo
 * [ ] log           List history of updates to a repo
@@ -52,6 +51,8 @@ noscl keygen
 - --tag purpose "git-nostr-chunk"
 - --tag purpose "git-nostr-fork"
 - --tag purpose "git-nostr-publish"
+- --tag purpose "git-nostr-issue"
+
 
 tools required:
 - [git]
