@@ -74,6 +74,10 @@ case $1 in
     shift
     issue.sh "$@"
     exit;;
+  issues)
+    shift
+    issues.sh "$@"
+    exit;;
   -h)
     usage
     exit;;

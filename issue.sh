@@ -57,12 +57,20 @@ if [ "$RELAY" = "" ]; then
   exit 1
 fi
 
-if [ "$PUBLICKEY" = "" ]; then
-  usage
-fi
-
 if [ "$SECRETKEY" = "" ]; then
   SECRETKEY=`git config nostr.secretkey`
+fi
+
+if [ "$PUBLICKEY" = "" ]; then
+PUBLICKEY=`git config nostr.publickey`
+fi
+
+if [ "$PUBLICKEY" = "" ]; then
+PUBLICKEY=`nostril --sec $SECRETKEY | jq --raw-output .pubkey`
+fi
+
+if [ "$PUBLICKEY" = "" ]; then
+  usage
 fi
 
 if [ "$TITLE" = "" ]; then
