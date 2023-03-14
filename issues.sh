@@ -53,4 +53,5 @@ if [ "$PUBLICKEY" = "" ]; then
   usage
 fi
 
-nostril query --kinds 7777 -g "p" "$PUBLICKEY"|websocat $RELAY|grep git-nostr-issue|jq .|jq '.[2] | {title: .tags[] | select(.[0] == "title") | .[1], content}'
+nostril query --kinds 7777 -g "p" "$PUBLICKEY"|websocat $RELAY|grep git-nostr-issue|jq .|
+jq '.[2] | {id, pubkey, created_at, title: .tags[] | select(.[0] == "title") | .[1], content}'
