@@ -6,25 +6,26 @@ echo "
 Usage: git nostr [command] [--help]
 
 Commands:
-  publish       upload commits to nostr as patches
-  deleteall     send delete request for all messages for key pair
-  list          list git repo manifest ids
-  clone         git init, set nostr config, fetch patches for author and apply to local repo
-  create        set git config.publickey to public key and upload all config patches to nostr
-  pull          fetch patches for an author or manifestid and apply
-  fork          clone a repo, then create
-  forks         list forks of a repo
+  help             get help about a command
+  publish           upload commits to nostr as patches
+  deleteall         send delete request for all messages for key pair
+  list              list git repo manifest ids
+  clone             git init, set nostr config, fetch patches for author and apply to local repo
+  create            set git config.publickey to public key and upload all config patches to nostr
+  pull              fetch patches for an author or manifestid and apply
+  fork              clone a repo, then create
+  forks             list forks of a repo
+  issue             create an issue for a repo
+  issues            list issues for a repo
+  pullrequest, pr   create a pull request for a repo
+  pullrequests, prs list pull requests for a repo
 
-  create-id     (not implemented) Create a git repo on nostr
   log           (not implemented) List history of updates to a repo
-  issues        (not implemented) List issues for a repo
-  prs           (not implemented) List pull requests for a repo
   authors       (not implemented) List contributors to a repo
   name          (not implemented) Name a repo
   named         (not implemented) Search for repos by name
-  pull-request  (not implemented) Create a pull-request
   web           (not implemented) Serve a web server for repos
-  help          (not implemented) Get help about a command
+
   reconstruct   (not implemented) Reconstruct blobs for a git-update nostr message
   find-object   (not implemented) Find a git object in a repo
  "
@@ -77,6 +78,25 @@ case $1 in
   issues)
     shift
     issues.sh "$@"
+    exit;;
+  pullrequest)
+    shift
+    pullrequest.sh "$@"
+    exit;;
+  pr)
+    shift
+    pullrequest.sh "$@"
+    exit;;
+  pullrequests)
+    shift
+    pullrequests.sh "$@"
+    exit;;
+  prs)
+    shift
+    pullrequests.sh "$@"
+    exit;;
+  help)
+    usage
     exit;;
   -h)
     usage
