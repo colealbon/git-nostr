@@ -30,13 +30,22 @@ do
         shift
         shift
         ;;
+      *)
+        PUBLICKEY="$1"
+        shift
+        ;;
     esac
 done
+
+if [ "$RELAY" = "" ]; then
+  RELAY=`git config nostr.relay`
+fi
 
 if [ "$RELAY" = "" ]; then
   usage
   exit 1
 fi
+
 
 if [ "$PUBLICKEY" = "" ]; then
   usage
