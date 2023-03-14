@@ -34,6 +34,10 @@ do
         shift
         shift
         ;;
+      *)
+        PUBLICKEY="$1"
+        shift
+        ;;
     esac
 done
 
