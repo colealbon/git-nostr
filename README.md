@@ -21,6 +21,7 @@ noscl keygen
 ```
 
 # todo
+* [x] help          Get help about a command
 * [x] publish       publish commit to nostr as base64 encoded patch
 * [x] deleteall     send delete request for every message for a given publickey
 * [x] list          list manifest ids for git-nostr repos
@@ -38,11 +39,9 @@ noscl keygen
 * [ ] name          Name a repo
 * [ ] named         Search for repos by name
 * [ ] web           Serve a web server for repos
-* [ ] help          Get help about a command
 * [ ] reconstruct   Reconstruct blobs for a git-update nostr message
 * [ ] find-object   Find a git object in a repo
 * [ ] remote-add    A git remote helper git-remote-nostr for using `nostr://` URLs with git
-
 * [ ] create bounty   create a request for task and escrow payment
 * [ ] claim bounty    link bounty to a git patch (aka invoice)
 * [ ] approve claim   release paymeht for bounty
@@ -54,7 +53,6 @@ noscl keygen
 - --tag purpose "git-nostr-issue"
 - --tag purpose "git-nostr-pullrequest"
 - --tag purpose "git-nostr-clone"
-
 
 tools required:
 - [git]
