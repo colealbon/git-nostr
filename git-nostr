@@ -6,7 +6,7 @@ echo "
 Usage: git nostr [command] [--help]
 
 Commands:
-  help             get help about a command
+  help              get help about a command
   publish           upload commits to nostr as patches
   deleteall         send delete request for all messages for key pair
   list              list git repo manifest ids
@@ -19,9 +19,9 @@ Commands:
   issues            list issues for a repo
   pullrequest, pr   create a pull request for a repo
   pullrequests, prs list pull requests for a repo
+  authors           List contributors to a repo
+  log               List history of updates to a repo
 
-  log           (not implemented) List history of updates to a repo
-  authors       (not implemented) List contributors to a repo
   name          (not implemented) Name a repo
   named         (not implemented) Search for repos by name
   web           (not implemented) Serve a web server for repos
@@ -98,6 +98,10 @@ case $1 in
   authors)
     shift
     authors.sh "$@"
+    exit;;
+  log)
+    shift
+    log.sh "$@"
     exit;;
   help)
     usage
