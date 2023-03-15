@@ -45,6 +45,10 @@ do
         shift
         shift
         ;;
+      *)
+        TITLE="$1"
+        shift
+        ;;
     esac
 done
 
