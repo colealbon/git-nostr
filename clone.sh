@@ -80,4 +80,4 @@ grep --line-buffered "\"content\""|
 jq --raw-output .content|
 grep --line-buffered .|
 awk '{system("echo "$1"|base64 -d")}'|
-git am
+git am --committer-date-is-author-date
