@@ -95,6 +95,10 @@ case $1 in
     shift
     pullrequests.sh "$@"
     exit;;
+  authors)
+    shift
+    authors.sh "$@"
+    exit;;
   help)
     usage
     exit;;

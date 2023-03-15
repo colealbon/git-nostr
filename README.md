@@ -30,12 +30,12 @@ noscl keygen
 * [x] fork          Fork a git repo on nostr
 * [x] forks         List forks of a repo
 * [x] issues        List issues for a repo
+* [x] pull-request  Create a pull-request
 * [x] prs           List pull requests for a repo
-* [ ] authors       List contributors to a repo
+* [x] authors       List contributors to a repo
 * [ ] log           List history of updates to a repo
 * [ ] name          Name a repo
 * [ ] named         Search for repos by name
-* [ ] pull-request  Create a pull-request
 * [ ] web           Serve a web server for repos
 * [ ] help          Get help about a command
 * [ ] reconstruct   Reconstruct blobs for a git-update nostr message
