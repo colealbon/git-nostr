@@ -21,12 +21,17 @@ do
         usage
         ;;
       --publickey)
-        PUBLICKEY=$2
+        SOURCEPUBLICKEY=$2
         shift
         shift
         ;;
       --relay)
         RELAY="$2"
+        shift
+        shift
+        ;;
+      --secretkey)
+        SECRETKEY="$2"
         shift
         shift
         ;;
@@ -41,28 +46,34 @@ if [ "$RELAY" = "" ]; then
   RELAY=`git config nostr.relay`
 fi
 
-if [ "$RELAY" = "" ]; then
-  usage
-  exit 1
+if [ "$SECRETKEY" = "" ]; then
+  SECRETKEY=`git config nostr.secretkey`
 fi
 
+if [ "$RELAY" = "" ]; then
+  echo 'missing relay'
+  usage
+fi
 
-if [ "$PUBLICKEY" = "" ]; then
+if [ "$SOURCEPUBLICKEY" = "" ]; then
+  echo 'missing public key'
+  usage
+fi
+
+if [ "$SECRETKEY" = "" ]; then
+  echo 'missing secret key'
   usage
 fi
 
 queryManifestForAuthor () {
-  nostril query --kinds 7777 --authors $PUBLICKEY|
+  nostril query --kinds 7777 --authors $SOURCEPUBLICKEY|
   websocat $RELAY|
   jq -c --raw-output '.[]'|
   grep "git-nostr-publish"|
   tee  >(jq --raw-output .id) > /dev/null
 }
 
-if [ "$PUBLICKEY" = "" ]; then
-  queryManifestMessageIDs
-  exit 0
-fi
+PUBLICKEY=`nostril --sec $SECRETKEY | jq --raw-output .pubkey`
 
 git init
 git config nostr.publickey $PUBLICKEY
@@ -81,3 +92,13 @@ jq --raw-output .content|
 grep --line-buffered .|
 awk '{system("echo "$1"|base64 -d")}'|
 git am --committer-date-is-author-date
+
+ANNOUNCEMENTID=`nostril --envelope --sec $SECRETKEY --kind 7777 --content "$SOURCEPUBLICKEY --> $PUBLICKEY"  -p "$SOURCEPUBLICKEY" --tag purpose "git-nostr-clone"|\
+tee \
+  >(websocat $RELAY | jq -c .|grep OK | jq --raw-output .[1]) \
+  >/dev/null`
+
+git config nostr.clonesource $SOURCEPUBLICKEY
+git config nostr.secretkey $SECRETKEY
+git config nostr.relay $RELAY
+git config nostr.publickey $PUBLICKEY

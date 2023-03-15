@@ -11,6 +11,7 @@ Commands:
   deleteall         send delete request for all messages for key pair
   list              list git repo manifest ids
   clone             git init, set nostr config, fetch patches for author and apply to local repo
+  clones            list all clones for a repo
   create            set git config.publickey to public key and upload all config patches to nostr
   pull              fetch patches for an author or manifestid and apply
   fork              clone a repo, then create
@@ -54,6 +55,10 @@ case $1 in
   clone)
     shift
     clone.sh "$@"
+    exit;;
+  clones)
+    shift
+    clones.sh "$@"
     exit;;
   create) # run git init, set nostr.privatekey, set nostr.relay
     shift

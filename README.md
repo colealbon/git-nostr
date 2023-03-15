@@ -25,6 +25,7 @@ noscl keygen
 * [x] deleteall     send delete request for every message for a given publickey
 * [x] list          list manifest ids for git-nostr repos
 * [x] clone         clone a git repo from "git nostr publish manifestid
+* [x] clones        list clones of a repo
 * [x] create        set git nostr.publickey to public key and upload all commits to nostr
 * [x] pull          create patch, send to repo public key
 * [x] fork          Fork a git repo on nostr
@@ -33,7 +34,7 @@ noscl keygen
 * [x] pull-request  Create a pull-request
 * [x] prs           List pull requests for a repo
 * [x] authors       List contributors to a repo
-* [ ] log           List history of updates to a repo
+* [x] log           List history of updates to a repo
 * [ ] name          Name a repo
 * [ ] named         Search for repos by name
 * [ ] web           Serve a web server for repos
@@ -52,6 +53,7 @@ noscl keygen
 - --tag purpose "git-nostr-publish"
 - --tag purpose "git-nostr-issue"
 - --tag purpose "git-nostr-pullrequest"
+- --tag purpose "git-nostr-clone"
 
 
 tools required:
