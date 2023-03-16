@@ -18,6 +18,8 @@ Commands:
   forks             list forks of a repo
   issue             create an issue for a repo
   issues            list issues for a repo
+  name              publish a friendly name for a repo
+  names             list named repos
   pullrequest, pr   create a pull request for a repo
   pullrequests, prs list pull requests for a repo
   authors           List contributors to a repo
@@ -107,6 +109,14 @@ case $1 in
   log)
     shift
     log.sh "$@"
+    exit;;
+  name)
+    shift
+    name.sh "$@"
+    exit;;
+  names)
+    shift
+    names.sh "$@"
     exit;;
   help)
     usage
