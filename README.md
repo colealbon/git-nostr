@@ -1,14 +1,7 @@
 # git-nostr (pre-prototype stage)
 - A command line tool `git-nostr` for managing nostr git
-- Git repo on [git-nostr][git-nostr]
-```
-# git-nostr patches public key: 0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631
-nostril query \
-  --kinds=7777 \
-  --authors=0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631 |
-  websocat ws://nostr.nostrin.gs |
-  jq .
-```
+- Git repo on [git.nostrin.gs][git-nostr]
+- 9 minute git-nostr intro video: https://youtu.be/j0llGQfNWtQ
 # team
 - Cole Albon: npub1c0le4pgu49j76fnt54xfyclkszlfrcjx2c5vvjatdfvey5sat3ws76lcvg
 
