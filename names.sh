@@ -57,6 +57,6 @@ if [ "$PUBLICKEY" = "" ]; then
   usage
 fi
 
-nostril query --kinds 7777 -g "p" "$PUBLICKEY"|
-websocat $RELAY|grep git-nostr-name
-#| jq -r '.[2].pubkey'|sort -u|grep -v null
+nostril query --kinds 7777|
+websocat $RELAY|grep git-nostr-name|
+jq -r '{event: .[2].id, name: .[2].content, pubkey: .[2].pubkey}' |jq -c|sort -u|grep -v null
