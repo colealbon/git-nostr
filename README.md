@@ -55,6 +55,7 @@ tools required:
 - [jq]
 
 research:
+- [nostr-rs-relay][nostr-rs-relay]
 - [nip17][nip17]
 - [git-nostr-tools][git-nostr-tools]
 - [git-ssb][git-ssb]
@@ -65,6 +66,7 @@ research:
 - [ssb-git-repo][ssb-git-repo]
 - [git-remote-ssb][git-remote-ssb]
 
+[nostr-rs-relay]: https://sr.ht/~gheartsfield/nostr-rs-relay/
 [git-nostr]: http://git.nostrin.gs/?p=git-nostr.git
 [jq]: https://stedolan.github.io/jq/
 [websocat]: https://docs.rs/crate/websocat
