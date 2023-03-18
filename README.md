@@ -2,6 +2,8 @@
 - A command line tool `git-nostr` for managing nostr git
 - Git repo on [git.nostrin.gs][git-nostr]
 - 9 minute git-nostr intro video: https://youtu.be/j0llGQfNWtQ
+- why git-nostr? git nostr clone: https://www.youtube.com/watch?v=TdwCAZMehjU&t=341s
+- pull request via nostr: https://www.youtube.com/watch?v=curCfIzQdXY&t=183s
 # team
 - Cole Albon: npub1c0le4pgu49j76fnt54xfyclkszlfrcjx2c5vvjatdfvey5sat3ws76lcvg
 
@@ -29,8 +31,8 @@ noscl keygen
 * [x] prs           List pull requests for a repo
 * [x] authors       List contributors to a repo
 * [x] log           List history of updates to a repo
-* [ ] name          Name a repo
-* [ ] named         Search for repos by name
+* [x] name          Name a repo
+* [x] named         Search for repos by name
 * [ ] web           Serve a web server for repos
 * [ ] reconstruct   Reconstruct blobs for a git-update nostr message
 * [ ] find-object   Find a git object in a repo
