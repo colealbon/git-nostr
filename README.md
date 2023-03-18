@@ -48,6 +48,7 @@ noscl keygen
 - --tag purpose "git-nostr-issue"
 - --tag purpose "git-nostr-pullrequest"
 - --tag purpose "git-nostr-clone"
+- --tag purpose "git-nostr-name"
 
 tools required:
 - [git]
