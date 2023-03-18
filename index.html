@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/nostr-tools/lib/nostr.bundle.js"></script>
+  </head>
+  <body>
+    nostrin.gs - git-nostr
+    <p><a href="https://git.nostrin.gs/?p=git-nostr.git;a=summary">legacy repo</a></p>
+    <p><a href="https://github.com/colealbon/git-nostr">github</a></p>
+    <p>nostr public key: <span id="publickey"></span></p>
+    <details>
+      <summary>raw issues <pre>git nostr issues --publickey 0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631 --relay wss://nostr.nostrin.gs</pre></summary>
+      <pre id="rawissues"></pre>
+    </details>
+    <details>
+      <summary>raw events:</summary>
+      <pre id="rawevents"></pre>
+    </details>
+    <script>
+      const sk = window.NostrTools.generatePrivateKey()
+      const pk = "0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631"
+      document.getElementById("publickey").innerHTML = pk
+      const pool = new window.NostrTools.SimplePool()
+      const relays = ['wss://nostr.nostrin.gs']
+      const events = []
+      let sub = pool.sub(
+        [...relays],
+        [
+          {
+            authors: [pk]
+          }
+        ]
+      )
+      sub.on('event', event => {
+        events.push(event)
+        document.getElementById("rawevents").innerHTML = JSON.stringify(events, null, 2)
+        const issues = events.filter((event) => event.tags.flat().find((tag => tag === 'git-nostr-issue')))
+        document.getElementById("rawissues").innerHTML = JSON.stringify(issues, null, 2)
+      })
+    </script>
+  </body>
+</html>

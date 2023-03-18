@@ -1,5 +1,6 @@
 # git-nostr (pre-prototype stage)
 - A command line tool `git-nostr` for managing nostr git
+- Activity on [nostrin.gs][nostrin.gs]
 - Git repo on [git.nostrin.gs][git-nostr]
 - 9 minute git-nostr intro video: https://youtu.be/j0llGQfNWtQ
 - why git-nostr? git nostr clone: https://www.youtube.com/watch?v=TdwCAZMehjU&t=341s
@@ -33,7 +34,7 @@ noscl keygen
 * [x] log           List history of updates to a repo
 * [x] name          Name a repo
 * [x] named         Search for repos by name
-* [ ] web           Serve a web server for repos
+* [x] web           Serve a web server for repos
 * [ ] reconstruct   Reconstruct blobs for a git-update nostr message
 * [ ] find-object   Find a git object in a repo
 * [ ] remote-add    A git remote helper git-remote-nostr for using `nostr://` URLs with git
@@ -70,7 +71,8 @@ research:
 - [git-remote-ssb][git-remote-ssb]
 
 [nostr-rs-relay]: https://sr.ht/~gheartsfield/nostr-rs-relay/
-[git-nostr]: http://git.nostrin.gs/?p=git-nostr.git
+[nostrin.gs]: https://nostrin.gs
+[git-nostr]: https://git.nostrin.gs/?p=git-nostr.git
 [jq]: https://stedolan.github.io/jq/
 [websocat]: https://docs.rs/crate/websocat
 [nostril]: https://github.com/jb55/nostril
