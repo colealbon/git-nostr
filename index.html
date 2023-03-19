@@ -1,42 +1,55 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>nostrin.gs</title>
     <script src="https://unpkg.com/nostr-tools/lib/nostr.bundle.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
   </head>
   <body>
-    nostrin.gs - git-nostr
-    <p><a href="https://git.nostrin.gs/?p=git-nostr.git;a=summary">legacy repo</a></p>
-    <p><a href="https://github.com/colealbon/git-nostr">github</a></p>
-    <p>nostr public key: <span id="publickey"></span></p>
-    <details>
-      <summary>raw issues <pre>git nostr issues --publickey 0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631 --relay wss://nostr.nostrin.gs</pre></summary>
-      <pre id="rawissues"></pre>
-    </details>
-    <details>
-      <summary>raw events:</summary>
-      <pre id="rawevents"></pre>
-    </details>
-    <script>
-      const sk = window.NostrTools.generatePrivateKey()
-      const pk = "0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631"
-      document.getElementById("publickey").innerHTML = pk
-      const pool = new window.NostrTools.SimplePool()
-      const relays = ['wss://nostr.nostrin.gs']
-      const events = []
-      let sub = pool.sub(
-        [...relays],
-        [
-          {
-            authors: [pk]
-          }
-        ]
-      )
-      sub.on('event', event => {
-        events.push(event)
-        document.getElementById("rawevents").innerHTML = JSON.stringify(events, null, 2)
-        const issues = events.filter((event) => event.tags.flat().find((tag => tag === 'git-nostr-issue')))
-        document.getElementById("rawissues").innerHTML = JSON.stringify(issues, null, 2)
-      })
-    </script>
+    <main class="container">
+      <h1>nostrin.gs - git-nostr</h1>
+      <details>
+        <summary>raw issues <pre>git nostr issues --publickey 0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631 --relay wss://nostr.nostrin.gs</pre></summary>
+        <pre id="rawissues"></pre>
+      </details>
+      <details>
+        <summary>raw commits <pre>git nostr list --publickey 0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631 --relay wss://nostr.nostrin.gs</pre></summary>
+        <pre id="rawcommits"></pre>
+      </details>
+      <details>
+        <summary>raw clones:</summary>
+        <pre id="rawclones"></pre>
+      </details>
+      <details>
+        <summary>raw events:</summary>
+        <pre id="rawevents"></pre>
+      </details>
+      <section id="star" data-theme="light" aria-label="Star git-nostr on GitHub"><div class="container"><p>Give us a Star on GitHub:<iframe src="https://ghbtns.com/github-btn.html?user=colealbon&repo=git-nostr&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160" height="30" title="GitHub"></iframe></p></div></section>
+      <script>
+        const pool = new window.NostrTools.SimplePool()
+        const relays = ['wss://nostr.nostrin.gs', 'wss://relay.damus.io/', 'wss://relay.orangepill.dev']
+        const events = []
+        let sub = pool.sub(
+          [...relays],
+          [
+          {"kinds": [7777]}
+          ]
+        )
+        sub.on('event', event => {
+          events.push(event)
+          document.getElementById("rawevents").innerHTML = JSON.stringify(events, null, 2)
+          const issues = events.filter((event) => event.tags.flat().find((tag => tag === 'git-nostr-issue')))
+          document.getElementById("rawissues").innerHTML = JSON.stringify(issues, null, 2)
+          const clones = events.filter((event) => event.tags.flat().find((tag => tag === 'git-nostr-clone')))
+          document.getElementById("rawclones").innerHTML = JSON.stringify(clones, null, 2)
+          const commits = events.filter((event) => event.tags.flat().find((tag => tag === 'git-nostr-publish')))
+            .map(publishevent => JSON.parse(atob(publishevent.content)))
+
+          document.getElementById("rawcommits").innerHTML = JSON.stringify(commits, null, 2)
+        })
+      </script>
+    </main>
   </body>
 </html>
