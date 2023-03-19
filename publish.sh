@@ -103,7 +103,6 @@ base64WithSortHintsToNostrMessages() {
       --envelope \
       --sec "secretkey" \
       --kind 7777 \
-      --tag purpose "git-nostr-chunk" \
       --tag sort "$1$4" \
       --tag commitid "$2" \
       --tag description \"`echo "$3"|base64 -D`\" \
@@ -154,10 +153,5 @@ MANIFESTID=`nostril --envelope --sec "$SECRETKEY" --kind 7777 --tag purpose "git
   tee\
    >(websocat "$RELAY" | jq -c .|grep OK | jq --raw-output .[1])\
    >/dev/null`
-
-# ANNOUNCEMENTID=`nostril --envelope --sec $SECRETKEY --content "$MANIFESTID" --tag purpose "git-nostr-announce"|\
-# tee \
-#   >(websocat "$RELAY" | jq -c .|grep OK | jq --raw-output .[1]) \
-#   >/dev/null`
 
 echo $MANIFESTID
