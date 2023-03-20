@@ -19,11 +19,15 @@
         <pre id="rawcommits"></pre>
       </details>
       <details>
-        <summary>raw clones:</summary>
+        <summary>raw clones</summary>
         <pre id="rawclones"></pre>
       </details>
       <details>
-        <summary>raw events:</summary>
+        <summary>authors</summary>
+        <pre id="authors"></pre>
+      </details>
+      <details>
+        <summary>raw events</summary>
         <pre id="rawevents"></pre>
       </details>
       <section id="star" data-theme="light" aria-label="Star git-nostr on GitHub"><div class="container"><p>Give us a Star on GitHub:<iframe src="https://ghbtns.com/github-btn.html?user=colealbon&repo=git-nostr&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160" height="30" title="GitHub"></iframe></p></div></section>
@@ -31,6 +35,7 @@
         const pool = new window.NostrTools.SimplePool()
         const relays = ['wss://nostr.nostrin.gs', 'wss://relay.damus.io/', 'wss://relay.orangepill.dev']
         const events = []
+
         let sub = pool.sub(
           [...relays],
           [
@@ -46,8 +51,11 @@
           document.getElementById("rawclones").innerHTML = JSON.stringify(clones, null, 2)
           const commits = events.filter((event) => event.tags.flat().find((tag => tag === 'git-nostr-publish')))
             .map(publishevent => JSON.parse(atob(publishevent.content)))
-
           document.getElementById("rawcommits").innerHTML = JSON.stringify(commits, null, 2)
+
+          const authors = [...new Set(events.filter((event) => event.tags.flat().find((tag => tag === 'commitid')))
+          .map(publishevent => atob(publishevent.content).split('\n')[1].split(':')[1].trim()))]
+          document.getElementById("authors").innerHTML = JSON.stringify(authors, null, 2)
         })
       </script>
     </main>
