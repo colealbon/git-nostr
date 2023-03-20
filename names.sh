@@ -3,8 +3,8 @@
 usage()
 {
 echo "
-Usage: git nostr forks [options]
-   ex: git nostr forks --publickey 0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631 --relay ws://nostr.nostrin.gs
+Usage: git nostr names [options]
+   ex: git nostr names --publickey 0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631 --relay ws://nostr.nostrin.gs
    list other people's forks forks for a public key
    # PUBLICKEY=`nostril --sec $SECRETKEY | jq --raw-output .pubkey`
  Options:
