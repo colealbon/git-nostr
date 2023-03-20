@@ -35,7 +35,6 @@ noscl keygen
 * [x] name          Name a repo
 * [x] named         Search for repos by name
 * [x] web           Serve a web server for repos
-* [ ] reconstruct   Reconstruct blobs for a git-update nostr message
 * [ ] find-object   Find a git object in a repo
 * [ ] remote-add    A git remote helper git-remote-nostr for using `nostr://` URLs with git
 * [ ] create bounty   create a request for task and escrow payment
@@ -43,7 +42,6 @@ noscl keygen
 * [ ] approve claim   release paymeht for bounty
 
 # kind=7777 tags (eventual NIPS)
-- --tag purpose "git-nostr-chunk"
 - --tag purpose "git-nostr-fork"
 - --tag purpose "git-nostr-publish"
 - --tag purpose "git-nostr-issue"

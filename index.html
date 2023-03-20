@@ -9,18 +9,32 @@
   </head>
   <body>
     <main class="container">
-      <h1>nostrin.gs - git-nostr</h1>
+      <h1>git-nostr - reports</h1>
+      <small>git-nostr is a command line tool to enhance git (clone of git-ssb)</small>
+      <p></p>
       <details>
-        <summary>raw issues <pre>git nostr issues --publickey 0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631 --relay wss://nostr.nostrin.gs</pre></summary>
-        <pre id="rawissues"></pre>
+        <summary>issues</summary>
+        <pre id="issues"></pre>
       </details>
       <details>
-        <summary>raw commits <pre>git nostr list --publickey 0f578badfbc982c36aac5ca8ea973a0bea5ab93adaef9885e163fbe8d7e5e631 --relay wss://nostr.nostrin.gs</pre></summary>
-        <pre id="rawcommits"></pre>
+        <summary>commits with content</summary>
+        <pre id="commitswithcontent"></pre>
+      </details>
+      <details>
+        <summary>patch content</summary>
+        <pre id="patchcontent"></pre>
+      </details>
+      <details>
+        <summary>commits without content</summary>
+        <pre id="commitswithoutcontent"></pre>
       </details>
       <details>
         <summary>raw clones</summary>
         <pre id="rawclones"></pre>
+      </details>
+      <details>
+        <summary>names</summary>
+        <pre id="names"></pre>
       </details>
       <details>
         <summary>authors</summary>
@@ -35,7 +49,6 @@
         const pool = new window.NostrTools.SimplePool()
         const relays = ['wss://nostr.nostrin.gs', 'wss://relay.damus.io/', 'wss://relay.orangepill.dev']
         const events = []
-
         let sub = pool.sub(
           [...relays],
           [
@@ -43,19 +56,38 @@
           ]
         )
         sub.on('event', event => {
+
           events.push(event)
+
           document.getElementById("rawevents").innerHTML = JSON.stringify(events, null, 2)
-          const issues = events.filter((event) => event.tags.flat().find((tag => tag === 'git-nostr-issue')))
-          document.getElementById("rawissues").innerHTML = JSON.stringify(issues, null, 2)
+
+          const issues = [...new Set(events.filter((event) => event.tags.flat().find((tag => tag === 'git-nostr-issue')))
+          .map(issue => issue.tags.filter(issuetag => issuetag.indexOf('title') !== -1))
+          .flat(Infinity).filter(issueEntry => issueEntry !== 'title'))]
+          document.getElementById("issues").innerHTML = JSON.stringify(issues, null, 2)
+
+
           const clones = events.filter((event) => event.tags.flat().find((tag => tag === 'git-nostr-clone')))
           document.getElementById("rawclones").innerHTML = JSON.stringify(clones, null, 2)
-          const commits = events.filter((event) => event.tags.flat().find((tag => tag === 'git-nostr-publish')))
-            .map(publishevent => JSON.parse(atob(publishevent.content)))
-          document.getElementById("rawcommits").innerHTML = JSON.stringify(commits, null, 2)
+
+          const commitsWithContent = events.filter((event) => event.tags.flat().find((tag => tag === 'commitid')))
+
+          document.getElementById("commitswithcontent").innerHTML = JSON.stringify(commitsWithContent, null, 2)
+
+          const patchContent = commitsWithContent.map(commitevent => atob(commitevent.content))
+
+          document.getElementById("patchcontent").innerText = patchContent
+
+          const commitsWithoutContent = events.filter((event) => event.tags.flat().find((tag => tag === 'git-nostr-publish')))
+          document.getElementById("commitswithoutcontent").innerHTML = JSON.stringify(commitsWithoutContent, null, 2)
+
+          const names = events.filter((event) => event.tags.flat().find((tag => tag === 'git-nostr-name')))
+          document.getElementById("names").innerHTML = JSON.stringify(names, null, 2)
 
           const authors = [...new Set(events.filter((event) => event.tags.flat().find((tag => tag === 'commitid')))
           .map(publishevent => atob(publishevent.content).split('\n')[1].split(':')[1].trim()))]
           document.getElementById("authors").innerHTML = JSON.stringify(authors, null, 2)
+
         })
       </script>
     </main>
