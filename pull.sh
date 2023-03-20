@@ -9,6 +9,7 @@ Usage: git nostr pull [options]
  Options:
    --publickey         nostr public key
    --relay             nostr relay url
+   --commitid          git commitid
    "
 exit 2
 }
@@ -21,11 +22,6 @@ do
     case $key in
       -h | --help)
         usage
-        ;;
-      --manifestid)
-        MANIFESTID=$2
-        shift
-        shift
         ;;
       --commitid)
         COMMITID=$2
@@ -85,31 +81,14 @@ if [ "$COMMITID" != "" ]; then
   awk -v relay="$RELAY" '{system("nostril query -i "$1"| websocat "relay )}' |
   jq '.[]'|jq -c|grep content| jq -r .content|
   awk '{system("echo \""$1"\" | base64 -D")}'|
-  git am --reject
+  git am --committer-date-is-author-date --reject
 fi
 
-if [ "$COMMITID$MANIFESTID" = "" ]; then
+if [ "$COMMITID" = "" ]; then
   queryManifestForAuthor |
   jq -r '.[] | .id' |
   awk -v relay="$RELAY" '{system("nostril query -i "$1"| websocat "relay )}' |
   jq '.[]'|jq -c|grep content| jq -r .content|
   awk '{system("echo \""$1"\" | base64 -D")}'|
-  git am
+  git am --committer-date-is-author-date --reject
 fi
-
-# TODO: publish a nostr message when commitid is applied
-
-
-# scratch code is research to not fetch already applied patches
-# REMOTECOMMITIDS=`
-#   queryManifestForAuthor | grep --line-buffered . |
-#   awk -v relay="$RELAY" '{system("nostril query -i "$1"| websocat "relay )}' |
-#   jq '.[]'|jq -c|grep content| jq --raw-output .content|
-#   awk '{system("echo \""$1"\" | base64 -D")}' |
-#   jq --raw-output '.commitid'
-# `
-
-# COMMITIDS=`
-#   git log |grep --line-buffered "^commit " |\
-#   sed 's/.* //g'| sed 's/ /\n/g'
-# `
