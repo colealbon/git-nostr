@@ -7,6 +7,7 @@
 - pull request via nostr: https://www.youtube.com/watch?v=curCfIzQdXY&t=183s
 # team
 - Cole Albon: npub1c0le4pgu49j76fnt54xfyclkszlfrcjx2c5vvjatdfvey5sat3ws76lcvg
+- zaps: gitnostr@getalby.com
 
 # install (manual)
 - add git-nostr directory to path
