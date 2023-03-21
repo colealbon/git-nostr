@@ -75,6 +75,32 @@ if [ "$RELAY" = "" ]; then
   usage
 fi
 
+if [ "$COMMITID" = "" ]; then
+  usage
+fi
+
+PUBLICKEY=`nostril --sec $SECRETKEY | jq --raw-output .pubkey`
+
+queryManifestForAuthor () {
+  nostril query --kinds 7777 --authors $PUBLICKEY|
+  websocat $RELAY|
+  jq -c --raw-output '.[] '|
+  grep "git-nostr-publish"|
+  tee  >(jq --raw-output .id) > /dev/null |
+  awk -v relay="$RELAY" '{system("nostril query -i "$1"| websocat "relay )}'|
+  jq '.[]'|jq -c|grep content| jq --raw-output .content|
+  awk '{system("echo \""$1"\" | base64 -D")}'|
+  jq -s 'sort_by(.sort)'
+}
+
+CHECKALREADYPUBLISHED=`queryManifestForAuthor | jq -r --arg commitid "$COMMITID" '.[] | select(.commitid == $commitid) | .id'`
+
+if [ "$CHECKALREADYPUBLISHED" != "" ]; then
+  echo $COMMITID
+  exit 1
+fi
+
+
 patchesToBase64WithSortHints() {
   git log --reverse |
   grep --line-buffered "^commit " |
@@ -92,8 +118,6 @@ patchesToBase64WithSortHints() {
   # $4 commitsort
   # $5 content base64
 }
-
-
 
 base64WithSortHintsToNostrMessages() {
   awk \
@@ -115,16 +139,6 @@ if [ "$SECRETKEY" = "" ]; then
   echo "ERROR: create messages with secret key, then you can relay them"
   usage
   exit 1
-fi
-
-if [ "$COMMITID" = "" ]; then
-SUCCESSMSGS=`patchesToBase64WithSortHints | \
-  tee \
-    >(base64WithSortHintsToNostrMessages |\
-      grep --line-buffered . | websocat "$RELAY"  ) \
-    >/dev/null | \
-  jq -c .|grep OK | jq --raw-output .[1]
-`
 fi
 
 if [ "$COMMITID" != "" ]; then
