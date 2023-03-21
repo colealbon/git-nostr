@@ -137,21 +137,34 @@ SUCCESSMSGS=`patchesToBase64WithSortHints |\
 `
 fi
 
-MANIFEST=`echo $SUCCESSMSGS |sed 's/ /\n/g' | grep --line-buffered .|
-awk -v relay="$RELAY" '{system(\
-"nostril query -i "$1" | websocat "relay"|\
-jq -c .|grep EVENT |jq -c .[]|grep "$1)}'|
-jq --raw-output '{
-  id: .id,
-  commitid: .tags[] | select(.[0] == "commitid") | .[1],
-  sort: .tags[] | select(.[0] == "sort") | .[1],
-  description: .tags[] | select(.[0] == "description") | .[1],
-  }'| base64
-`
+MANIFESTID=""
+RETRIES=0
 
-MANIFESTID=`nostril --envelope --sec "$SECRETKEY" --kind 7777 --tag purpose "git-nostr-publish" --content "$MANIFEST"|\
-  tee\
-   >(websocat "$RELAY" | jq -c .|grep OK | jq --raw-output .[1])\
-   >/dev/null`
+while [ "$MANIFESTID" = "" ]
+do
+  sleep $((1 + 3 * $RETRIES))
+  RETRIES=$(( $RETRIES + 1 ))
+  if [ $RETRIES = 3 ]
+  then
+    RETRIES=0
+    MANIFESTID="failed"
+    echo "$COMMITID failed"
+  fi
+  MANIFEST=`echo $SUCCESSMSGS |sed 's/ /\n/g' | grep --line-buffered .|
+  awk -v relay="$RELAY" '{system(\
+  "nostril query -i "$1" | websocat "relay"|\
+  jq -c .|grep EVENT |jq -c .[]|grep "$1)}'|
+  jq --raw-output '{
+    id: .id,
+    commitid: .tags[] | select(.[0] == "commitid") | .[1],
+    sort: .tags[] | select(.[0] == "sort") | .[1],
+    description: .tags[] | select(.[0] == "description") | .[1],
+    }'| base64
+  `
+  MANIFESTID=`nostril --envelope --sec "$SECRETKEY" --kind 7777 --tag purpose "git-nostr-publish" --content "$MANIFEST"|\
+    tee\
+    >(websocat "$RELAY" | jq -c .|grep OK | jq --raw-output .[1])\
+    >/dev/null`
+done
 
-echo $MANIFESTID
+echo $COMMITID
