@@ -25,7 +25,8 @@ noscl keygen
 * [x] clone         clone a git repo from "git nostr publish manifestid
 * [x] clones        list clones of a repo
 * [x] create        set git nostr.publickey to public key and upload all commits to nostr
-* [x] pull          create patch, send to repo public key
+* [x] pull          pull and apply patch for given commitid
+* [x] push          publish all unpublished commits
 * [x] fork          Fork a git repo on nostr
 * [x] forks         List forks of a repo
 * [x] issues        List issues for a repo
@@ -46,7 +47,7 @@ noscl keygen
 - --tag purpose "git-nostr-fork"
 - --tag purpose "git-nostr-publish"
 - --tag purpose "git-nostr-issue"
-- --tag purpose "git-nostr-pullrequest"
+- --tag purpose "git-nostr-pr"
 - --tag purpose "git-nostr-clone"
 - --tag purpose "git-nostr-name"
 

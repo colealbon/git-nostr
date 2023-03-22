@@ -14,6 +14,7 @@ Commands:
   clones            list all clones for a repo
   create            set git config.publickey to public key and upload all config patches to nostr
   pull              fetch patches for an author or manifestid and apply
+  push              publish all unpublished patches to nostr
   fork              clone a repo, then create
   forks             list forks of a repo
   issue             create an issue for a repo
@@ -69,6 +70,10 @@ case $1 in
   pull)
     shift
     pull.sh "$@"
+    exit;;
+  push)
+    shift
+    push.sh "$@"
     exit;;
   fork)
     shift
