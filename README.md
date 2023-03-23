@@ -7,7 +7,7 @@
 - pull request via nostr: https://www.youtube.com/watch?v=curCfIzQdXY&t=183s
 # team
 - Cole Albon: npub1c0le4pgu49j76fnt54xfyclkszlfrcjx2c5vvjatdfvey5sat3ws76lcvg
-- zaps: gitnostr@getalby.com
+- zaps: [gitnostr@getalby.com][gitnostr@getalby.com]
 
 # install (manual)
 - add git-nostr directory to path
@@ -70,7 +70,8 @@ research:
 - [ssb-git-repo][ssb-git-repo]
 - [git-remote-ssb][git-remote-ssb]
 
-[nostr-rs-relay]: https://sr.ht/~gheartsfield/nostr-rs-relay/
+[gitnostr@getalby.com]: https://getalby.com/p/gitnostr
+[nostr-rs-relay]: https://sr.ht/~gheartsfield/nostr-rs-relay
 [nostrin.gs]: https://nostrin.gs
 [git-nostr]: https://git.nostrin.gs/?p=git-nostr.git
 [jq]: https://stedolan.github.io/jq/
